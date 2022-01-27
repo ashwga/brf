@@ -1,0 +1,8 @@
+"pi" [ 3.1415 ] def
+"prt_newl" [ 10 prc ] def
+"ismodof" [ swp % 0 = ] def
+pi prt
+prt_newl
+10 5 ismodof prt
+prt_newl
+
