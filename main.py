@@ -35,7 +35,7 @@ def exec_brf_code(s, stack, symbols, verbose):
     #print(s, stack)
     if isnum(s) or "[" in s or "\"" in s:
         #print("\x1b[32m>>>>>>>>> TRIG\x1b[0m", s)
-        stack.append(s if isnum(s) else s.strip("[]"))
+        stack.append(s if isnum(s) else s.strip("[]\""))
     elif s == "def":
 #        print(symbols)
         symbols[stack.pop().strip("\"")] = stack.pop().strip("\"")
