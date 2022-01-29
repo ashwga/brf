@@ -47,8 +47,17 @@ def preprocess(code):
 
     clevel = 0
     is_inside_str = False
+    comment = False
 
     for idx, i in enumerate(code):
+        if i == "#":
+            comment = True
+        elif i == "\n":
+            comment = False
+
+        if comment:
+            continue
+
         if (i == " " or i == "\n" or idx == len(code) - 1) and (clevel == 0 and not is_inside_str):
             tokens.append(token_str)
             token_str = ""
