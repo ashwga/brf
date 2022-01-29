@@ -32,25 +32,21 @@ def isnum(x):
 
 def exec_brf_code(s, stack, symbols, verbose):
     global std_symbols
-    #print(s, stack)
     if isnum(s) or "[" in s or "\"" in s:
-        #print("\x1b[32m>>>>>>>>> TRIG\x1b[0m", s)
         stack.append(s if isnum(s) else s.strip("[]\""))
     elif s == "def":
-#        print(symbols)
         symbols[stack.pop().strip("\"")] = stack.pop().strip("\"")
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:
-        exec_tokens(preprocess(symbols[s]), symbols, verbose)
-# read code from stdin (TODO: add argparse)
+        exec_tokens(preprocess(symbols[s]), stack, symbols, verbose)
 
 def preprocess(code):
     tokens = []
     token_str = ""
 
     clevel = 0
-    is_inside_str = False # 1 = string closed; -1 = string opened
+    is_inside_str = False
 
     for idx, i in enumerate(code):
         if (i == " " or i == "\n" or idx == len(code) - 1) and (clevel == 0 and not is_inside_str):
@@ -58,7 +54,6 @@ def preprocess(code):
             token_str = ""
         else:
             token_str += i
-            #print(f"{i = } | {code[idx-1] = } | {idx - 1 = }")
             if i == "[":
                 clevel += 1
             elif i == "]":
@@ -82,7 +77,7 @@ def preprocess(code):
 
     return tokens
 
-def exec_tokens(tokens, symbols, verbose):
+def exec_tokens(tokens, stack, symbols, verbose):
     global std_symbols
     for i in tokens:
         if verbose:
@@ -90,10 +85,8 @@ def exec_tokens(tokens, symbols, verbose):
         if not isnum(i):
             if (i not in std_symbols and i not in symbols) and "\"" not in i and "[" not in i:
                 print(f"ERROR: undefined symbol \"{i}\"")
-                exit(0)
-        #print(f"before: {stack = }")
+                break
         exec_brf_code(i, stack, symbols, verbose)
-        #print(f"after:  {stack = }")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=f"Python interpreter for brf, an esolang, v{VERSION}")
@@ -112,8 +105,8 @@ if __name__ == "__main__":
 
     tokens = preprocess(code)
 
-    symbols = []
+    symbols = {}
     stack = []
 
     # execute
-    exec_tokens(tokens, symbols, args.verbose)
+    exec_tokens(tokens, stack, symbols, args.verbose)
