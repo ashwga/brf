@@ -42,7 +42,7 @@ def exec_brf_code(s, stack, symbols, verbose):
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:
-        exec_tokens(preprocess(symbols[s]), verbose)
+        exec_tokens(preprocess(symbols[s]), symbols, verbose)
 # read code from stdin (TODO: add argparse)
 
 def preprocess(code):
@@ -82,12 +82,13 @@ def preprocess(code):
 
     return tokens
 
-def exec_tokens(tokens, verbose):
+def exec_tokens(tokens, symbols, verbose):
+    global std_symbols
     for i in tokens:
         if verbose:
             print(f"{stack = } {i = } ({type(i).__name__})")
         if not isnum(i):
-            if i not in symbols and "\"" not in i and "[" not in i:
+            if (i not in std_symbols and i not in symbols) and "\"" not in i and "[" not in i:
                 print(f"ERROR: undefined symbol \"{i}\"")
                 exit(0)
         #print(f"before: {stack = }")
@@ -111,8 +112,8 @@ if __name__ == "__main__":
 
     tokens = preprocess(code)
 
-    symbols = std_symbols.copy()
+    symbols = []
     stack = []
 
     # execute
-    exec_tokens(tokens, args.verbose)
+    exec_tokens(tokens, symbols, args.verbose)

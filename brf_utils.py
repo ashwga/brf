@@ -20,25 +20,32 @@ def add(stack):
     stack.append(stack.pop() + stack.pop())
 
 def sub(stack):
-    stack.append(stack.pop() - stack.pop())
+    a, b = stack.pop(), stack.pop()
+    stack.append(b - a)
 
 def mul(stack):
     stack.append(stack.pop() * stack.pop())
 
 def div(stack):
-    stack.append(stack.pop() / stack.pop())
+    b, a = stack.pop(), stack.pop()
+    stack.append(a / b)
 
 def mod(stack):
-    stack.append(stack.pop() % stack.pop())
+    b, a = stack.pop(), stack.pop()
+    stack.append(a % b)
 
 def floor_div(stack):
-    stack.append(stack.pop() // stack.pop())
+    b, a = stack.pop(), stack.pop()
+    stack.append(a // b)
 
 def less(stack):
-    stack.append(int(stack.pop() < stack.pop()))
+    b, a = stack.pop(), stack.pop()
+    stack.append(int(a < b))
 
 def equals(stack):
-    stack.append(int(stack.pop() == stack.pop()))
+    b, a = stack.pop(), stack.pop()
+    stack.append(int(a == b))
 
 def greater(stack):
-    stack.append(int(stack.pop() > stack.pop()))
+    b, a = stack.pop(), stack.pop()
+    stack.append(int(a > b))
