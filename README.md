@@ -1,9 +1,10 @@
 # Todo (in order of priority):
-- [ ] while loops
-- [ ] special characters (like \n)
-- [ ] file inclusion
-- [x] if statements
-- [x] comments
+- 0.0.2:
+    - [ ] while loops
+    - [ ] special characters (like \n)
+    - [x] file inclusion
+    - [x] if statements
+    - [x] comments
 
 # Symbols (aka instructions)
 ## def (define variable/symbol)
@@ -32,10 +33,17 @@ Example:
 Usage:
 `val_to_check [ if true ] [ if false ] if`
 Notes:
-**Consumes all three values**
+**Warning: Consumes all three values**
 Examples:
 `1 [ "yes" prt ] [ "no" prt ] if # will print yes`
 `0 [ "yes" prt ] [ "no" prt ] if # will print no`
+
+## /include (include a file)
+Usage:
+`/include FILENAME`
+Notes:
+Adds code from FILENAME to current file
+**Warning: /include loops can occur**
 
 -----
 # Math

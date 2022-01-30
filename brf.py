@@ -68,7 +68,14 @@ def preprocess(code):
             continue
 
         if (i == " " or i == "\n" or idx == len(code) - 1) and (clevel == 0 and not is_inside_str):
-            tokens.append(token_str)
+            if token_str == "/include":
+                filename = code[idx:idx+code[idx:].find("\n")].strip(" \n")
+                with open(filename, "r") as f:
+                    data = f.read()
+                tokens.extend(preprocess(data))
+                comment = True # workaround
+            else:
+                tokens.append(token_str)
             token_str = ""
         else:
             token_str += i
@@ -90,7 +97,7 @@ def preprocess(code):
         print("unmatched \" found")
         exit(1)
 
-    tokens = list(map(lambda x: int(x) if x.isdigit() else (float(x) if isnum(x) else x), tokens))
+    tokens = list(map(lambda x: x if isinstance(x, (int, float)) else (int(x) if x.isdigit() else (float(x) if isnum(x) else x)), tokens))
     tokens = [x for x in tokens if x != ""]
 
     return tokens
