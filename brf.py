@@ -10,6 +10,7 @@ std_symbols = {
     "swp": bu.swap,
     "prt": bu.print_string,
     "prc": bu.print_char,
+    "if":  None, # implemented here
     "+":   bu.add,
     "++":  bu.inc,
     "-":   bu.sub,
@@ -36,6 +37,14 @@ def exec_brf_code(s, stack, symbols, verbose):
         stack.append(s if isnum(s) else s.strip("[]\""))
     elif s == "def":
         symbols[stack.pop().strip("\"")] = stack.pop().strip("\"")
+    elif s == "if":
+        f_code = stack.pop()
+        t_code = stack.pop()
+        v = stack.pop()
+        if v:
+            exec_tokens(preprocess(t_code), stack, symbols, verbose)
+        else:
+            exec_tokens(preprocess(f_code), stack, symbols, verbose)
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:

@@ -1,6 +1,9 @@
-# Todo:
-- [ ] file inclusion
+# Todo (in order of priority):
+- [ ] while loops
 - [ ] special characters (like \n)
+- [ ] file inclusion
+- [x] if statements
+- [x] comments
 
 # Symbols (aka instructions)
 ## def (define variable/symbol)
@@ -24,6 +27,15 @@ Example:
 ## prc (pop int from stack and print it as an ascii character):
 Example:
 `65 prc # will print A`
+
+## if (if statement)
+Usage:
+`val_to_check [ if true ] [ if false ] if`
+Notes:
+**Consumes all three values**
+Examples:
+`1 [ "yes" prt ] [ "no" prt ] if # will print yes`
+`0 [ "yes" prt ] [ "no" prt ] if # will print no`
 
 -----
 # Math
