@@ -94,9 +94,10 @@ def preprocess(code):
                 tokens.extend(preprocess(data))
                 comment = True # workaround
             else:
-                token_str = token_str.replace("\\n", "\n")
-                token_str = token_str.replace("\\r", "\r")
-                token_str = token_str.replace("\\t", "\t")
+                # kind of safe fix for escaped escaped special characters still being replaced
+                token_str = token_str.replace("\\\\n", str(hash(token_str))).replace("\\n", "\n").replace(str(hash(token_str)), "\\n")
+                token_str = token_str.replace("\\\\r", str(hash(token_str))).replace("\\r", "\n").replace(str(hash(token_str)), "\\r")
+                token_str = token_str.replace("\\\\t", str(hash(token_str))).replace("\\t", "\n").replace(str(hash(token_str)), "\\t")
                 tokens.append(token_str)
             token_str = ""
         else:
