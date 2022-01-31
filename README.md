@@ -1,7 +1,7 @@
 # Todo (in order of priority):
 - 0.0.2:
-    - [ ] while loops
     - [ ] special characters (like \n)
+    - [x] while loops
     - [x] file inclusion
     - [x] if statements
     - [x] comments
@@ -13,21 +13,25 @@ Usage:
 Example:
 `"pi" [ 3.1415 ] def # will add a symbol called pi`
 
-## dup (duplicate value on stack):
+## dup (duplicate value on stack)
 Example:
 `"string" dup`
 
-## swp (swap two values on stack):
+## swp (swap two values on stack)
 Example:
 `"string 1" "string 2" swp prt prt # will print string 1 then string 2`
 
-## prt (pop and print value from stack):
+## prt (pop and print value from stack)
 Example:
 `"Hello, world!" prt # will print Hello, world!`
 
-## prc (pop int from stack and print it as an ascii character):
+## prc (pop int from stack and print it as an ascii character)
 Example:
 `65 prc # will print A`
+
+## drop (drop top value from stack)
+Example:
+`2 1 drop prt # will print 2`
 
 ## if (if statement)
 Usage:
@@ -37,6 +41,16 @@ Notes:
 Examples:
 `1 [ "yes" prt ] [ "no" prt ] if # will print yes`
 `0 [ "yes" prt ] [ "no" prt ] if # will print no`
+
+## while (while loop)
+Usage:
+`val [ code_to_exec ] while # will execute code_to_exec if val is truthy and continue to execute it while the top value is truthy`
+Notes:
+Consumes top value to check if truthy
+
+## do_while (do while loop)
+Usage:
+`[ code to exec ] do_while # will execute code_to_exec once and then do regular while loop`
 
 ## /include (include a file)
 Usage:

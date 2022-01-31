@@ -5,23 +5,25 @@ import brf_utils as bu
 VERSION = "0.0.1"
 
 std_symbols = {
-    "def": None, # implemented here
-    "dup": bu.duplicate,
-    "swp": bu.swap,
-    "prt": bu.print_string,
-    "prc": bu.print_char,
-    "if":  None, # implemented here
-    "+":   bu.add,
-    "++":  bu.inc,
-    "-":   bu.sub,
-    "--":  bu.dec,
-    "*":   bu.mul,
-    "/":   bu.div,
-    "%":   bu.mod,
-    "//":  bu.floor_div,
-    "<":   bu.less,
-    "=":   bu.equals,
-    ">":   bu.greater
+    "def":      None, # implemented here
+    "dup":      bu.duplicate,
+    "swp":      bu.swap,
+    "prt":      bu.print_string,
+    "prc":      bu.print_char,
+    "if":       None, # implemented here
+    "while":    None, # implemented here
+    "do_while": None, # implemented here
+    "+":        bu.add,
+    "++":       bu.inc,
+    "-":        bu.sub,
+    "--":       bu.dec,
+    "*":        bu.mul,
+    "/":        bu.div,
+    "%":        bu.mod,
+    "//":       bu.floor_div,
+    "<":        bu.less,
+    "=":        bu.equals,
+    ">":        bu.greater
 }
 
 def isnum(x):
@@ -45,6 +47,18 @@ def exec_brf_code(s, stack, symbols, verbose):
             exec_tokens(preprocess(t_code), stack, symbols, verbose)
         else:
             exec_tokens(preprocess(f_code), stack, symbols, verbose)
+    elif s == "while":
+        code = stack.pop()
+        v = stack.pop()
+        while v:
+            exec_tokens(preprocess(code), stack, symbols, verbose)
+            v = stack.pop()
+    elif s == "do_while":
+        code = stack.pop()
+        v = True
+        while v:
+            exec_tokens(preprocess(code), stack, symbols, verbose)
+            v = stack.pop()
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:
