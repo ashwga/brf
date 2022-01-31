@@ -1,3 +1,10 @@
+def isnum(x):
+    try:
+        float(x)
+        return True
+    except ValueError:
+        return False
+
 def duplicate(stack):
     stack.append(stack[-1])
 
@@ -25,6 +32,24 @@ def in_c(stack):
 def i2a(stack):
     stack.append(chr(stack.pop()))
 
+def n2s(stack):
+    stack.append(str(stack.pop()))
+
+def s2n(stack):
+    v = stack.pop()
+    v = int(v) if v.isdigit() else float(v)
+    stack.append(v)
+
+def s2f(stack):
+    v = stack.pop()
+    v = float(v)
+    stack.append(v)
+
+def s2i(stack):
+    v = stack.pop()
+    v = int(float(v))
+    stack.append(v)
+
 def a2i(stack):
     stack.append(ord(stack.pop()))
 
@@ -32,7 +57,8 @@ def drop(stack):
     stack.pop()
 
 def add(stack):
-    stack.append(stack.pop() + stack.pop())
+    a, b = stack.pop(), stack.pop()
+    stack.append(b + a)
 
 def sub(stack):
     a, b = stack.pop(), stack.pop()

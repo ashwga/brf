@@ -14,6 +14,10 @@ std_symbols = {
     "in_c":     bu.in_c,
     "i2a":      bu.i2a,
     "a2i":      bu.a2i,
+    "n2s":      bu.n2s,
+    "s2n":      bu.s2n,
+    "s2f":      bu.s2f,
+    "s2i":      bu.s2i,
     "drop":     bu.drop,
     "if":       None, # implemented here
     "while":    None, # implemented here
@@ -31,17 +35,10 @@ std_symbols = {
     ">":        bu.greater
 }
 
-def isnum(x):
-    try:
-        float(x)
-        return True
-    except ValueError:
-        return False
-
 def exec_brf_code(s, stack, symbols, verbose):
     global std_symbols
-    if isnum(s) or "[" in s or "\"" in s:
-        stack.append(s if isnum(s) else s.strip("[]\""))
+    if bu.isnum(s) or "[" in s or "\"" in s:
+        stack.append(s if bu.isnum(s) else s.strip("[]\""))
     elif s == "def":
         symbols[stack.pop().strip("\"")] = stack.pop().strip("\"")
     elif s == "if":
@@ -121,7 +118,7 @@ def preprocess(code):
         print("unmatched \" found")
         exit(1)
 
-    tokens = list(map(lambda x: x if isinstance(x, (int, float)) else (int(x) if x.isdigit() else (float(x) if isnum(x) else x)), tokens))
+    tokens = list(map(lambda x: x if isinstance(x, (int, float)) else (int(x) if x.isdigit() else (float(x) if bu.isnum(x) else x)), tokens))
     tokens = [x for x in tokens if x != ""]
 
     return tokens
@@ -131,7 +128,7 @@ def exec_tokens(tokens, stack, symbols, verbose):
     for i in tokens:
         if verbose:
             print(f"{stack = } {i = } ({type(i).__name__})")
-        if not isnum(i):
+        if not bu.isnum(i):
             if (i not in std_symbols and i not in symbols) and "\"" not in i and "[" not in i:
                 print(f"ERROR: undefined symbol \"{i}\"")
                 break
