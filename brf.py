@@ -10,6 +10,11 @@ std_symbols = {
     "swp":      bu.swap,
     "prt":      bu.print_string,
     "prc":      bu.print_char,
+    "in_s":     bu.in_s,
+    "in_c":     bu.in_c,
+    "i2a":      bu.i2a,
+    "a2i":      bu.a2i,
+    "drop":     bu.drop,
     "if":       None, # implemented here
     "while":    None, # implemented here
     "do_while": None, # implemented here
@@ -89,6 +94,12 @@ def preprocess(code):
                 tokens.extend(preprocess(data))
                 comment = True # workaround
             else:
+                if token_str == "\\n":
+                    token_str = "\n"
+                elif token_str == "\\r":
+                    token_str = "\r"
+                elif token_str == "\\t":
+                    token_str = "\t"
                 tokens.append(token_str)
             token_str = ""
         else:

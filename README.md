@@ -1,6 +1,7 @@
 # Todo (in order of priority):
 - 0.0.2:
     - [ ] special characters (like \n)
+    - [x] input
     - [x] while loops
     - [x] file inclusion
     - [x] if statements
@@ -33,6 +34,22 @@ Example:
 Example:
 `2 1 drop prt # will print 2`
 
+## in_s (input string)
+Example:
+`in_s <user inputs abc> prt # will print abc`
+
+## in_c (input character (cuts off everything after first character))
+Example:
+`in_c <user inputs abc> prt # will print a`
+
+## i2a (int to ascii)
+Example:
+`65 i2a 66 i2a + prt # will print AB`
+
+## a2i (ascii to int)
+Example:
+`"A" a2i prt # will print 65`
+
 ## if (if statement)
 Usage:
 `val_to_check [ if true ] [ if false ] if`
@@ -64,6 +81,7 @@ Adds code from FILENAME to current file
 ## Addition:
 - Regular:
     - Example: `1 2 + prt # will print 3`
+    - Notes: can be used for concatenating strings
 - Increment:
     - Example: `1 ++ prt # will print 2`
 
