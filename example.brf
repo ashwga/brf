@@ -1,10 +1,19 @@
 "pi" [ 3.1415 ] def
-"prt_newl" [ 10 prc ] def
-"ismodof" [ swp % 0 = ] def
+"circle_area" [ dup * pi * ] def
+"is_mult_of" [ % 0 = ] def
 
-pi prt prt_newl
+# hi this is a comment
 
-10 5 ismodof prt prt_newl
+pi prt
+"\n" prt
 
-"HAIII" prt prt_newl
+"Is 10 a multiple of 5? " prt
+10 5 is_mult_of [ "yes" prt ] [ "no" prt ] if
+"\n" prt
+
+# 0 [ dup 2 is_mult_of [ dup n2s "is even\n" ] [ dup n2s "is odd\n" ] if ++ dup 10 < ] do_while
+0 [ dup 2 is_mult_of [ dup n2s " is even\n" + prt ] [ dup n2s " is odd\n" + prt ] if ++ dup 10 < ] do_while
+
+"Enter your name: " prt in_s
+"Hello, " prt prt "!" prt "\n" prt
 
