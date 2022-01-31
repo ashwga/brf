@@ -94,22 +94,20 @@ def preprocess(code):
                 tokens.extend(preprocess(data))
                 comment = True # workaround
             else:
-                if token_str == "\\n":
-                    token_str = "\n"
-                elif token_str == "\\r":
-                    token_str = "\r"
-                elif token_str == "\\t":
-                    token_str = "\t"
+                token_str = token_str.replace("\\n", "\n")
+                token_str = token_str.replace("\\r", "\r")
+                token_str = token_str.replace("\\t", "\t")
                 tokens.append(token_str)
             token_str = ""
         else:
             token_str += i
-            if i == "[":
-                clevel += 1
-            elif i == "]":
-                clevel -= 1
-            elif i == "\"" and ((code[idx-1] != "\\" and idx - 1 >= 0) or (idx == 0)):
+            if i == "\"" and ((code[idx-1] != "\\" and idx - 1 >= 0) or (idx == 0)):
                 is_inside_str = not is_inside_str
+            if not is_inside_str:
+                if i == "[":
+                    clevel += 1
+                elif i == "]":
+                    clevel -= 1
 
     if clevel != 0:
         if clevel > 0:
