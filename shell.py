@@ -14,8 +14,11 @@ try:
                 brf.exec_tokens(tokens, stack, symbols, False)
             else:
                 print(f"{', '.join(str(i) for i in stack)}")
-        except KeyboardInterrupt:
-            pass
+        except (KeyboardInterrupt, IndexError) as e:
+            if e == IndexError:
+                print("ERROR: pop from empty stack")
+            elif e == KeyboardInterrupt:
+                print("KeyboardInterrupt")
 
 except (KeyboardInterrupt, EOFError):
     print("bye!")
