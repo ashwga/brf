@@ -8,6 +8,7 @@ std_symbols = {
     "def":      None, # implemented here
     "dup":      bu.duplicate,
     "swp":      bu.swap,
+    "rot":      bu.rot,
     "prt":      bu.print_string,
     "prc":      bu.print_char,
     "in_s":     bu.in_s,

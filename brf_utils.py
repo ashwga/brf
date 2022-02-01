@@ -11,6 +11,12 @@ def duplicate(stack):
 def swap(stack):
     stack[-2], stack[-1] = stack[-1], stack[-2]
 
+def rot(stack):
+    c = stack.pop()
+    b = stack.pop()
+    a = stack.pop()
+    stack.extend((a, c, b))
+
 def inc(stack):
     stack[-1] += 1
 

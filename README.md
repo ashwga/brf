@@ -22,6 +22,10 @@ Example:
 Example:
 `"string 1" "string 2" swp prt prt # will print string 1 then string 2`
 
+## rot (rotate 3 values on stack)
+Example:
+`1 2 3 rot prt prt prt # will print 231`
+
 ## prt (pop and print value from stack)
 Example:
 `"Hello, world!" prt # will print Hello, world!`
