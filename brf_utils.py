@@ -29,6 +29,15 @@ def in_s(stack):
 def in_c(stack):
     stack.append(input()[0])
 
+def split(stack):
+    b, a = stack.pop(), stack.pop()
+    if b != "":
+        for i in a.split(b):
+            stack.append(i)
+    else:
+        for i in a:
+            stack.append(i)
+
 def i2a(stack):
     stack.append(chr(stack.pop()))
 
@@ -56,6 +65,10 @@ def a2i(stack):
 def drop(stack):
     stack.pop()
 
+def dropall(stack):
+    while stack:
+        stack.pop()
+
 def add(stack):
     a, b = stack.pop(), stack.pop()
     stack.append(b + a)
@@ -78,6 +91,18 @@ def mod(stack):
 def floor_div(stack):
     b, a = stack.pop(), stack.pop()
     stack.append(a // b)
+
+def bit_not(stack):
+    stack.append(0 if stack.pop() else 1)
+
+def bit_and(stack):
+    stack.append(stack.pop() & stack.pop())
+
+def bit_or(stack):
+    stack.append(stack.pop() | stack.pop())
+
+def bit_xor(stack):
+    stack.append(stack.pop() ^ stack.pop())
 
 def less(stack):
     b, a = stack.pop(), stack.pop()

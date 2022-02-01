@@ -12,6 +12,7 @@ std_symbols = {
     "prc":      bu.print_char,
     "in_s":     bu.in_s,
     "in_c":     bu.in_c,
+    "split":    bu.split,
     "i2a":      bu.i2a,
     "a2i":      bu.a2i,
     "n2s":      bu.n2s,
@@ -19,6 +20,7 @@ std_symbols = {
     "s2f":      bu.s2f,
     "s2i":      bu.s2i,
     "drop":     bu.drop,
+    "dropall":  bu.dropall,
     "if":       None, # implemented here
     "while":    None, # implemented here
     "do_while": None, # implemented here
@@ -30,6 +32,10 @@ std_symbols = {
     "/":        bu.div,
     "%":        bu.mod,
     "//":       bu.floor_div,
+    "not":      bu.bit_not,
+    "and":      bu.bit_and,
+    "or":       bu.bit_or,
+    "xor":      bu.bit_xor,
     "<":        bu.less,
     "=":        bu.equals,
     ">":        bu.greater
@@ -93,8 +99,8 @@ def preprocess(code):
             else:
                 # kind of safe fix for escaped escaped special characters still being replaced
                 token_str = token_str.replace("\\\\n", str(hash(token_str))).replace("\\n", "\n").replace(str(hash(token_str)), "\\n")
-                token_str = token_str.replace("\\\\r", str(hash(token_str))).replace("\\r", "\n").replace(str(hash(token_str)), "\\r")
-                token_str = token_str.replace("\\\\t", str(hash(token_str))).replace("\\t", "\n").replace(str(hash(token_str)), "\\t")
+                token_str = token_str.replace("\\\\r", str(hash(token_str))).replace("\\r", "\r").replace(str(hash(token_str)), "\\r")
+                token_str = token_str.replace("\\\\t", str(hash(token_str))).replace("\\t", "\t").replace(str(hash(token_str)), "\\t")
                 tokens.append(token_str)
             token_str = ""
         else:

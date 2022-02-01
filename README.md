@@ -1,6 +1,6 @@
 # Todo (in order of priority):
 - 0.0.2:
-    - [ ] special characters (like \n)
+    - [x] special characters (like \n)
     - [x] input
     - [x] while loops
     - [x] file inclusion
@@ -34,6 +34,10 @@ Example:
 Example:
 `2 1 drop prt # will print 2`
 
+## dropall (empties the stack)
+Example:
+`2 1 drop prt # will throw an error`
+
 ## in_s (input string)
 Example:
 `in_s <user inputs abc> prt # will print abc`
@@ -41,6 +45,13 @@ Example:
 ## in_c (input character (cuts off everything after first character))
 Example:
 `in_c <user inputs abc> prt # will print a`
+
+## split (split string by character(s)):
+Usage:
+`string split_char split`
+Notes:
+If split_char is empty it'll output every character in string by itself
+`"abcde" "" split prt prt prt prt prt # will print edcba`
 
 ## i2a (int to ascii)
 Example:
@@ -102,6 +113,16 @@ Adds code from FILENAME to current file
     - Example: `3 2 % prt # will print 1`
 - Floor division:
     - Example: `10 3 // prt # will print 3`
+
+## Bitwise operations:
+- not:
+    - Example: `1 not prt # will print 0`
+- and
+    - Example: `2 3 and prt # will print 2`
+- or
+    - Example: `4 3 or prt # will print 7`
+- xor
+    - Example: `7 7 xor prt # will print 0`
 
 ## Comparing two values:
 - Less than:
