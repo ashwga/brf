@@ -81,7 +81,13 @@ def preprocess(code):
     is_inside_str = False
     comment = False
 
+    line_count = 1
+    col_count = 1
+
     for idx, i in enumerate(code):
+        if i == "\n":
+            line_count += 1
+            col_count = 1
         if i == "#":
             comment = True
         elif i == "\n":
@@ -102,9 +108,10 @@ def preprocess(code):
                 token_str = token_str.replace("\\\\n", str(hash(token_str))).replace("\\n", "\n").replace(str(hash(token_str)), "\\n")
                 token_str = token_str.replace("\\\\r", str(hash(token_str))).replace("\\r", "\r").replace(str(hash(token_str)), "\\r")
                 token_str = token_str.replace("\\\\t", str(hash(token_str))).replace("\\t", "\t").replace(str(hash(token_str)), "\\t")
-                tokens.append(token_str)
+                tokens.append([token_str, (line_count, col_count)])
             token_str = ""
         else:
+            col_count -= 1 # just so col_count points to the start of the symbol
             token_str += i
             if i == "\"" and ((code[idx-1] != "\\" and idx - 1 >= 0) or (idx == 0)):
                 is_inside_str = not is_inside_str
@@ -113,6 +120,7 @@ def preprocess(code):
                     clevel += 1
                 elif i == "]":
                     clevel -= 1
+        col_count += 1
 
     if clevel != 0:
         if clevel > 0:
@@ -125,21 +133,33 @@ def preprocess(code):
         print("unmatched \" found")
         exit(1)
 
-    tokens = list(map(lambda x: x if isinstance(x, (int, float)) else (int(x) if x.isdigit() else (float(x) if bu.isnum(x) else x)), tokens))
-    tokens = [x for x in tokens if x != ""]
+    tokens = [i for i in tokens if i[0] != ""]
+
+    for idx, i in enumerate(tokens):
+        if i[0].isdigit():
+            tokens[idx][0] = int(i)
+        elif bu.isnum(i[0]):
+            tokens[idx][0] = float(i)
+
 
     return tokens
 
-def exec_tokens(tokens, stack, symbols, verbose):
+def exec_tokens(tokens, stack, symbols, verbose, fn):
     global std_symbols
     for i in tokens:
         if verbose:
-            print(f"{stack = } {i = } ({type(i).__name__})")
-        if not bu.isnum(i):
-            if (i not in std_symbols and i not in symbols) and "\"" not in i and "[" not in i:
-                print(f"ERROR: undefined symbol \"{i}\"")
+            print(f"{stack = } {i = } ({type(i[0]).__name__})")
+        if not bu.isnum(i[0]):
+            if (i[0] not in std_symbols and i[0] not in symbols) and "\"" not in i[0] and "[" not in i[0]:
+                print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: undefined symbol \"{i[0]}\"")
                 break
-        exec_brf_code(i, stack, symbols, verbose)
+        try:
+            exec_brf_code(i[0], stack, symbols, verbose)
+        except (IndexError) as e:
+            if isinstance(e, IndexError):
+                print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: Cannot pop from empty stack")
+            if fn != "stdin":
+                exit(1)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=f"Python interpreter for brf, an esolang, v{VERSION}")
@@ -162,4 +182,4 @@ if __name__ == "__main__":
     stack = []
 
     # execute
-    exec_tokens(tokens, stack, symbols, args.verbose)
+    exec_tokens(tokens, stack, symbols, args.verbose, args.filename)

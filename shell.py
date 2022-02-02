@@ -11,15 +11,13 @@ try:
         try:
             if user_input.strip() != "":
                 tokens = brf.preprocess(user_input)
-                brf.exec_tokens(tokens, stack, symbols, False)
+                brf.exec_tokens(tokens, stack, symbols, False, "stdin")
             else:
                 print(f"{', '.join(str(i) for i in stack)}")
-        except (KeyboardInterrupt, IndexError) as e:
-            if e == IndexError:
-                print("ERROR: pop from empty stack")
-            elif e == KeyboardInterrupt:
-                print("KeyboardInterrupt")
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
 
-except (KeyboardInterrupt, EOFError):
-    print("bye!")
-    exit(0)
+except (KeyboardInterrupt, EOFError) as e:
+    if isinstance(e, EOFError):
+        print("bye!")
+        exit(0)
