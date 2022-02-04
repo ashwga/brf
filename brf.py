@@ -137,9 +137,9 @@ def preprocess(code):
 
     for idx, i in enumerate(tokens):
         if i[0].isdigit():
-            tokens[idx][0] = int(i)
+            tokens[idx][0] = int(i[0])
         elif bu.isnum(i[0]):
-            tokens[idx][0] = float(i)
+            tokens[idx][0] = float(i[0])
 
 
     return tokens
