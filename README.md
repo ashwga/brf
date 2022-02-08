@@ -1,4 +1,9 @@
 # Todo (in order of priority):
+- 0.0.3:
+    - [ ] reading files
+    - [ ] arguments (argv, argc?)
+    - [ ] syscalls?
+    - [x] actual variables
 - 0.0.2:
     - [x] special characters (like \n)
     - [x] input
@@ -8,11 +13,19 @@
     - [x] comments
 
 # Symbols (aka instructions)
-## def (define variable/symbol)
+## def (define symbol)
 Usage:
 `"NAME" [ CODE ] def`
 Example:
 `"pi" [ 3.1415 ] def # will add a symbol called pi`
+
+## assign (define variable)
+Usage:
+`"NAME" value assign`
+
+## read (read variable and put on stack)
+Usage:
+`"NAME" read`
 
 ## dup (duplicate value on stack)
 Example:

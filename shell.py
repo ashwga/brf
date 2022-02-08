@@ -1,6 +1,7 @@
 import brf
 
 symbols = {}
+variables = {}
 stack = []
 
 print("Input empty line for stack")
@@ -11,7 +12,7 @@ try:
         try:
             if user_input.strip() != "":
                 tokens = brf.preprocess(user_input)
-                brf.exec_tokens(tokens, stack, symbols, False, "stdin")
+                brf.exec_tokens(tokens, stack, symbols, variables, False, "stdin")
             else:
                 print(f"{', '.join(str(i) for i in stack)}")
         except KeyboardInterrupt:

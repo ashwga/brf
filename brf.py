@@ -2,10 +2,12 @@ import sys
 import argparse
 import brf_utils as bu
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 std_symbols = {
     "def":      None, # implemented here
+    "assign":   None, # implemented here
+    "read":     None, # implemented here
     "dup":      bu.duplicate,
     "swp":      bu.swap,
     "rot":      bu.rot,
@@ -42,36 +44,40 @@ std_symbols = {
     ">":        bu.greater
 }
 
-def exec_brf_code(s, stack, symbols, verbose):
+def exec_brf_code(s, stack, symbols, variables, verbose, fn):
     global std_symbols
     if bu.isnum(s) or "[" in s or "\"" in s:
         stack.append(s if bu.isnum(s) else s.strip("[]\""))
     elif s == "def":
         symbols[stack.pop().strip("\"")] = stack.pop().strip("\"")
+    elif s == "assign":
+        variables[stack.pop().strip("\"")] = stack.pop()
+    elif s == "read":
+        stack.append(variables[stack.pop()])
     elif s == "if":
         f_code = stack.pop()
         t_code = stack.pop()
         v = stack.pop()
         if v:
-            exec_tokens(preprocess(t_code), stack, symbols, verbose)
+            exec_tokens(preprocess(t_code), stack, symbols, variables, verbose, fn)
         else:
-            exec_tokens(preprocess(f_code), stack, symbols, verbose)
+            exec_tokens(preprocess(f_code), stack, symbols, variables, verbose, fn)
     elif s == "while":
-        code = stack.pop()
+        code_tokens = preprocess(stack.pop())
         v = stack.pop()
         while v:
-            exec_tokens(preprocess(code), stack, symbols, verbose)
+            exec_tokens(code_tokens, stack, symbols, variables, verbose, fn)
             v = stack.pop()
     elif s == "do_while":
         code = stack.pop()
         v = True
         while v:
-            exec_tokens(preprocess(code), stack, symbols, verbose)
+            exec_tokens(preprocess(code), stack, symbols, variables, verbose, fn)
             v = stack.pop()
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:
-        exec_tokens(preprocess(symbols[s]), stack, symbols, verbose)
+        exec_tokens(preprocess(symbols[s]), stack, symbols, variables, verbose, fn)
 
 def preprocess(code):
     tokens = []
@@ -144,17 +150,17 @@ def preprocess(code):
 
     return tokens
 
-def exec_tokens(tokens, stack, symbols, verbose, fn):
+def exec_tokens(tokens, stack, symbols, variables, verbose, fn):
     global std_symbols
     for i in tokens:
         if verbose:
             print(f"{stack = } {i = } ({type(i[0]).__name__})")
         if not bu.isnum(i[0]):
-            if (i[0] not in std_symbols and i[0] not in symbols) and "\"" not in i[0] and "[" not in i[0]:
+            if (i[0] not in std_symbols and i[0] not in symbols and i[0] not in variables) and "\"" not in i[0] and "[" not in i[0]:
                 print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: undefined symbol \"{i[0]}\"")
                 break
         try:
-            exec_brf_code(i[0], stack, symbols, verbose)
+            exec_brf_code(i[0], stack, symbols, variables, verbose, fn)
         except (IndexError) as e:
             if isinstance(e, IndexError):
                 print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: Cannot pop from empty stack")
@@ -179,7 +185,8 @@ if __name__ == "__main__":
     tokens = preprocess(code)
 
     symbols = {}
+    variables = {}
     stack = []
 
     # execute
-    exec_tokens(tokens, stack, symbols, args.verbose, args.filename)
+    exec_tokens(tokens, stack, symbols, variables, args.verbose, args.filename)
