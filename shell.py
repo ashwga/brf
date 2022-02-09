@@ -4,21 +4,31 @@ symbols = {}
 variables = {}
 stack = []
 
-print("Input empty line for stack")
+print("Input empty line for stack; /reset to reset symbols and variables")
 
 try:
     while 1:
-        user_input = input("\n> ") + " "
         try:
-            if user_input.strip() != "":
-                tokens = brf.preprocess(user_input)
-                brf.exec_tokens(tokens, stack, symbols, variables, False, "stdin")
-            else:
-                print(f"{', '.join(str(i) for i in stack)}")
+            user_input = input("\n> ") + " "
+            if user_input.strip() == "/reset":
+                symbols = {}
+                variables = {}
+                print("Symbols and variables cleared.")
+                continue
+            elif user_input.strip() == "/clear":
+                stack = []
+                print("Stack cleared.")
+                continue
+            try:
+                if user_input.strip() != "":
+                    tokens = brf.preprocess(user_input)
+                    brf.exec_tokens(tokens, stack, symbols, variables, False, "stdin")
+                else:
+                    print(f"{', '.join(str(i) for i in stack)}")
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt")
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
 
-except (KeyboardInterrupt, EOFError) as e:
-    if isinstance(e, EOFError):
-        print("bye!")
-        exit(0)
+except EOFError as e:
+    print("bye!")
