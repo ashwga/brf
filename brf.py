@@ -161,9 +161,11 @@ def exec_tokens(tokens, stack, symbols, variables, verbose, fn):
                 break
         try:
             exec_brf_code(i[0], stack, symbols, variables, verbose, fn)
-        except (IndexError) as e:
+        except (IndexError, KeyError) as e:
             if isinstance(e, IndexError):
                 print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: Cannot pop from empty stack")
+            if isinstance(e, KeyError):
+                print(f"\n{fn}:{i[1][0]}:{i[1][1]}: ERROR: Undefined variable")
             if fn != "stdin":
                 exit(1)
 
