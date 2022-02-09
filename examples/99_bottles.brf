@@ -1,0 +1,20 @@
+"i" 99 assign
+[
+  "i" read prt " bottles of beer on the wall,\n" prt
+  "i" read prt " bottles of beer.\n" prt
+  "Take one down and pass it around,\n" prt
+  "i" read -- prt " bottle" prt "i" read 2 = [] [ "s" prt ] if " of beer on the wall.\n\n" prt
+  "i" read -- "i" swp assign
+  "i" read 1 = not
+] do_while
+
+"1 bottle of beer on the wall,\n" prt
+"1 bottle of beer.\n" prt
+"Take one down and pass it around,\n" prt
+"no more bottles of beer on the wall.\n\n" prt
+
+"No more bottles of beer on the wall,\n" prt
+"no more bottles of beer.\n" prt
+"Go to the store and buy some more,\n" prt
+"99 bottles of beer on the wall.\n\n" prt
+
