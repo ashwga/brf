@@ -1,0 +1,5 @@
+in_c
+"0" =
+[ "0\n" prt ]
+[ [ 1 prt 1 ] do_while ]
+if
