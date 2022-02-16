@@ -59,11 +59,11 @@ def exec_brf_code(s, stack, symbols, variables, verbose, fn):
         t_code = stack.pop()
         v = stack.pop()
         if v:
-            exec_tokens(preprocess(t_code), stack, symbols, variables, verbose, fn)
+            exec_tokens(preprocess(t_code, fn), stack, symbols, variables, verbose, fn)
         else:
-            exec_tokens(preprocess(f_code), stack, symbols, variables, verbose, fn)
+            exec_tokens(preprocess(f_code, fn), stack, symbols, variables, verbose, fn)
     elif s == "while":
-        code_tokens = preprocess(stack.pop())
+        code_tokens = preprocess(stack.pop(), fn)
         v = stack.pop()
         while v:
             exec_tokens(code_tokens, stack, symbols, variables, verbose, fn)
@@ -72,14 +72,14 @@ def exec_brf_code(s, stack, symbols, variables, verbose, fn):
         code = stack.pop()
         v = True
         while v:
-            exec_tokens(preprocess(code), stack, symbols, variables, verbose, fn)
+            exec_tokens(preprocess(code, fn), stack, symbols, variables, verbose, fn)
             v = stack.pop()
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:
-        exec_tokens(preprocess(symbols[s]), stack, symbols, variables, verbose, fn)
+        exec_tokens(preprocess(symbols[s], fn), stack, symbols, variables, verbose, fn)
 
-def preprocess(code):
+def preprocess(code, fn):
     tokens = []
     token_str = ""
 
@@ -107,8 +107,11 @@ def preprocess(code):
                 filename = code[idx:idx+code[idx:].find("\n")].strip(" \n")
                 with open(filename, "r") as f:
                     data = f.read()
-                tokens.extend(preprocess(data))
+                tokens.extend(preprocess(data, filename))
                 comment = True # workaround
+            elif token_str == "here":
+                col_count -= 1 # just so col_count points to the start of the symbol
+                tokens.append([f"\"{fn}:{line_count}:{col_count}\"", (line_count, col_count)])
             else:
                 # kind of safe fix for escaped escaped special characters still being replaced
                 token_str = token_str.replace("\\\\n", str(hash(token_str))).replace("\\n", "\n").replace(str(hash(token_str)), "\\n")
@@ -184,7 +187,7 @@ if __name__ == "__main__":
         with open(args.filename, "r") as f:
             code = f.read()
 
-    tokens = preprocess(code)
+    tokens = preprocess(code, args.filename)
 
     symbols = {}
     variables = {}

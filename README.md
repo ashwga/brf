@@ -63,12 +63,16 @@ Example:
 Example:
 `in_c <user inputs abc> prt # will print a`
 
-## split (split string by character(s)):
+## split (split string by character(s))
 Usage:
 `string split_char split`
 Notes:
 If split_char is empty it'll output every character in string by itself
 `"abcde" "" split prt prt prt prt prt # will print edcba`
+
+## here (replaced by its location)
+Example:
+`here prt # will print tmp.brf:1:1 if saved in tmp.brf`
 
 ## i2a (int to ascii)
 Example:

@@ -23,7 +23,7 @@ try:
                 exit(0)
             try:
                 if user_input.strip() != "":
-                    tokens = brf.preprocess(user_input)
+                    tokens = brf.preprocess(user_input, "stdin")
                     brf.exec_tokens(tokens, stack, symbols, variables, False, "stdin")
                 else:
                     print(f"{', '.join(str(i) for i in stack)}")
