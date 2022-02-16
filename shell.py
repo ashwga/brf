@@ -19,6 +19,8 @@ try:
                 stack = []
                 print("Stack cleared.")
                 continue
+            elif user_input.strip() == "/exit":
+                exit(0)
             try:
                 if user_input.strip() != "":
                     tokens = brf.preprocess(user_input)
