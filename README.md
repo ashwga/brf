@@ -84,9 +84,18 @@ Example:
 
 ## if (if statement)
 Usage:
-`val_to_check [ if true ] [ if false ] if`
+`val_to_check [ if true ] if`
 Notes:
-**Warning: Consumes all three values**
+**Warning: Consumes val_to_check**
+Examples:
+`1 [ "yes" prt ] if # will print yes`
+`0 [ "yes" prt ] if # will not print anything`
+
+## if_else (if_else statement)
+Usage:
+`val_to_check [ if true ] [ if false ] if_else`
+Notes:
+**Warning: Consumes val_to_check**
 Examples:
 `1 [ "yes" prt ] [ "no" prt ] if # will print yes`
 `0 [ "yes" prt ] [ "no" prt ] if # will print no`

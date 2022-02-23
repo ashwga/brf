@@ -5,16 +5,16 @@
 "max_iter" 100 assign
 
 "i" read [
-  "i" read is_mult3 [ "Fizz" prt ] [] if
-  "i" read is_mult5 [ "Buzz" prt ] [] if
+  "i" read is_mult3 [ "Fizz" prt ] if
+  "i" read is_mult5 [ "Buzz" prt ] if
 
   "i" read is_mult3 "m3" swp assign
   "i" read is_mult5 "m5" swp assign
 
-  "m3" read "m5" read or not [ "i" read prt ] [] if
+  "m3" read "m5" read or not [ "i" read prt ] if
 
   # print separator
-  "i" read "max_iter" read -- = [] [ ", " prt ] if
+  "i" read "max_iter" read -- = not [ ", " prt ] if
 
   "i" read ++
   "i" swp assign

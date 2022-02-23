@@ -25,6 +25,7 @@ std_symbols = {
     "drop":     bu.drop,
     "dropall":  bu.dropall,
     "if":       None, # implemented here
+    "if_else":       None, # implemented here
     "while":    None, # implemented here
     "do_while": None, # implemented here
     "+":        bu.add,
@@ -55,6 +56,11 @@ def exec_brf_code(s, stack, symbols, variables, verbose, fn):
     elif s == "read":
         stack.append(variables[stack.pop()])
     elif s == "if":
+        t_code = stack.pop()
+        v = stack.pop()
+        if v:
+            exec_tokens(preprocess(t_code, fn), stack, symbols, variables, verbose, fn)
+    elif s == "if_else":
         f_code = stack.pop()
         t_code = stack.pop()
         v = stack.pop()

@@ -3,7 +3,7 @@
   "i" read prt " bottles of beer on the wall,\n" prt
   "i" read prt " bottles of beer.\n" prt
   "Take one down and pass it around,\n" prt
-  "i" read -- prt " bottle" prt "i" read 2 = [] [ "s" prt ] if " of beer on the wall.\n\n" prt
+  "i" read -- prt " bottle" prt "i" read 2 = not [ "s" prt ] if " of beer on the wall.\n\n" prt
   "i" read -- "i" swp assign
   "i" read 1 = not
 ] do_while

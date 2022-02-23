@@ -2,12 +2,12 @@
 "is_mult5" [ 5 % 0 = ] def
 
 0 [
-  dup is_mult3 [ "Fizz" prt ] [] if
-  dup is_mult5 [ "Buzz" prt ] [] if
-  dup dup is_mult3 swp is_mult5 or not [ dup prt ] [] if
+  dup is_mult3 [ "Fizz" prt ] if
+  dup is_mult5 [ "Buzz" prt ] if
+  dup dup is_mult3 swp is_mult5 or not [ dup prt ] if
 
   # print separator
-  dup 99 = [] [ ", " prt ] if
+  dup 99 = not [ ", " prt ] if
 
   ++ dup 100 <
 ] do_while
