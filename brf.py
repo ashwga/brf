@@ -5,44 +5,46 @@ import brf_utils as bu
 VERSION = "0.0.2"
 
 std_symbols = {
-    "def":      None, # implemented here
-    "assign":   None, # implemented here
-    "read":     None, # implemented here
-    "dup":      bu.duplicate,
-    "swp":      bu.swap,
-    "rot":      bu.rot,
-    "prt":      bu.print_string,
-    "prc":      bu.print_char,
-    "in_s":     bu.in_s,
-    "in_c":     bu.in_c,
-    "split":    bu.split,
-    "i2a":      bu.i2a,
-    "a2i":      bu.a2i,
-    "n2s":      bu.n2s,
-    "s2n":      bu.s2n,
-    "s2f":      bu.s2f,
-    "s2i":      bu.s2i,
-    "drop":     bu.drop,
-    "dropall":  bu.dropall,
-    "if":       None, # implemented here
-    "if_else":       None, # implemented here
-    "while":    None, # implemented here
-    "do_while": None, # implemented here
-    "+":        bu.add,
-    "++":       bu.inc,
-    "-":        bu.sub,
-    "--":       bu.dec,
-    "*":        bu.mul,
-    "/":        bu.div,
-    "%":        bu.mod,
-    "//":       bu.floor_div,
-    "not":      bu.bit_not,
-    "and":      bu.bit_and,
-    "or":       bu.bit_or,
-    "xor":      bu.bit_xor,
-    "<":        bu.less,
-    "=":        bu.equals,
-    ">":        bu.greater
+    "def":        None, # implemented here
+    "assign":     None, # implemented here
+    "read":       None, # implemented here
+    "dup":        bu.duplicate,
+    "swp":        bu.swap,
+    "rot":        bu.rot,
+    "prt":        bu.print_string,
+    "prc":        bu.print_char,
+    "in_s":       bu.in_s,
+    "in_c":       bu.in_c,
+    "split":      bu.split,
+    "i2a":        bu.i2a,
+    "a2i":        bu.a2i,
+    "n2s":        bu.n2s,
+    "s2n":        bu.s2n,
+    "s2f":        bu.s2f,
+    "s2i":        bu.s2i,
+    "drop":       bu.drop,
+    "dropall":    bu.dropall,
+    "if":         None, # implemented here
+    "if_else":    None, # implemented here
+    "while":      None, # implemented here
+    "do_while":   None, # implemented here
+    "read_file":  None, # implemented here
+    "write_file":  None, # implemented here
+    "+":          bu.add,
+    "++":         bu.inc,
+    "-":          bu.sub,
+    "--":         bu.dec,
+    "*":          bu.mul,
+    "/":          bu.div,
+    "%":          bu.mod,
+    "//":         bu.floor_div,
+    "not":        bu.bit_not,
+    "and":        bu.bit_and,
+    "or":         bu.bit_or,
+    "xor":        bu.bit_xor,
+    "<":          bu.less,
+    "=":          bu.equals,
+    ">":          bu.greater
 }
 
 def exec_brf_code(s, stack, symbols, variables, verbose, fn):
@@ -80,6 +82,15 @@ def exec_brf_code(s, stack, symbols, variables, verbose, fn):
         while v:
             exec_tokens(preprocess(code, fn), stack, symbols, variables, verbose, fn)
             v = stack.pop()
+    elif s == "read_file":
+        filename = stack.pop()
+        with open(filename, "r") as f:
+            tmp = f.read()
+        stack.append(tmp)
+    elif s == "write_file":
+        filename = stack.pop()
+        with open(filename, "w") as f:
+            f.write(stack.pop())
     elif s in std_symbols:
         std_symbols[s](stack)
     elif s in symbols:

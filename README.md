@@ -1,8 +1,8 @@
 # Todo (in order of priority):
 - 0.0.3:
-    - [ ] reading files
     - [ ] arguments (argv, argc?)
     - [ ] syscalls?
+    - [x] reading/writing files
     - [x] actual variables
 - 0.0.2:
     - [x] special characters (like \n)
@@ -109,6 +109,18 @@ Consumes top value to check if truthy
 ## do_while (do while loop)
 Usage:
 `[ code to exec ] do_while # will execute code_to_exec once and then do regular while loop`
+
+## read_file (read from file)
+Usage:
+`filename read_file`
+Example:
+`"file.txt" read_file prt # will print "hello world" assuming file.txt contains hello world`
+
+## write_file (write to file)
+Usage:
+`content filename write_file`
+Example:
+`"hello world" "file.txt" write_file`
 
 ## /include (include a file)
 Usage:
